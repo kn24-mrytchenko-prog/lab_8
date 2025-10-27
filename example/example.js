@@ -1,39 +1,44 @@
-// Отримати елемент за ID
-const title = document.getElementById('title');
-console.log('Елемент за ID:', title);
+const num1Input = document.getElementById('num1');
+const num2Input = document.getElementById('num2');
+const resultDiv = document.getElementById('result');
 
-// Змінити текст заголовка через 3 секунди
-setTimeout(() => {
-    title.textContent = 'DOM у дії!';
-}, 3000);
+function validateInput() {
+  const num1 = parseFloat(num1Input.value);
+  const num2 = parseFloat(num2Input.value);
 
-// Отримати всі елементи з класом 'item'
-const items = document.getElementsByClassName('item');
-console.log('Елементи з класом "item":', items);
-
-// Змінити текст другого пункту
-if (items.length > 1) {
-    items[1].textContent = 'Змінений пункт 2';
+  if (isNaN(num1) || isNaN(num2)) {
+    resultDiv.textContent = 'Будь ласка, введіть правильні числа в обидва поля.';
+    return null;
+  }
+  return [num1, num2];
 }
 
-// Отримати перший елемент списку за селектором
-const firstItem = document.querySelector('#itemList .item');
-console.log('Перший пункт списку:', firstItem);
+function showResult(value) {
+  resultDiv.textContent = 'Результат: ' + value;
+}
 
-// Додати обробник події для кнопки зміни тексту
-document.getElementById('changeTextButton').addEventListener('click', function() {
-    title.textContent = 'Текст змінився!';
+document.getElementById('add').addEventListener('click', () => {
+  const nums = validateInput();
+  if (nums) showResult(nums[0] + nums[1]);
 });
 
-const arrayOfItems = document.getElementsByClassName('item');
-console.log(arrayOfItems.length, "FLJKSNfKSNf")
+document.getElementById('subtract').addEventListener('click', () => {
+  const nums = validateInput();
+  if (nums) showResult(nums[0] - nums[1]);
+});
 
-// Додати обробник події для кнопки додавання пункту
-document.getElementById('addItemButton').addEventListener('click', function() {
-    const newItem = document.createElement('li');
-    const arrayOfItems = document.getElementsByClassName('item');
-    console.log(arrayOfItems.length, "FLJKSNfKSNf")
-    newItem.textContent = `Новий пункт ${arrayOfItems.length + 1}`;
-    newItem.className = 'item';
-    document.getElementById('itemList').appendChild(newItem);
+document.getElementById('multiply').addEventListener('click', () => {
+  const nums = validateInput();
+  if (nums) showResult(nums[0] * nums[1]);
+});
+
+document.getElementById('divide').addEventListener('click', () => {
+  const nums = validateInput();
+  if (nums) {
+    if (nums[1] === 0) {
+      resultDiv.textContent = 'На нуль ділити не можна!';
+    } else {
+      showResult((nums[0] / nums[1]).toFixed(2));
+    }
+  }
 });
